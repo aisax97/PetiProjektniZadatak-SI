@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>     
+    <h2 id="name2">Welcome! </h2>
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<form action="#">
+			<h1>Create Account</h1>
+			<div class="social-container">
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+			</div>
+			<span>or use your email for registration</span>
+			<input type="text" id="name" placeholder="Name" />
+			<input type="email" id="email" placeholder="Email" />
+			<input type="password" id="pass" placeholder="Password" />
+			<button id="signup">Sign Up</button>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form action="#">
+			<h1>Sign in</h1>
+			<div class="social-container">
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+			</div>
+			<span>or use your account</span>
+			<input type="email" id="email2"placeholder="Email" />
+			<input type="password" id="pass2" placeholder="Password" />
+			<a href="#">Forgot your password?</a>
+			<button id="signin">Sign In</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Already have an account?</h1>
+				<p>Sign In now!</p>
+				<button class="ghost" id="signIn">Sign In</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>Don't have an account?</h1>
+				<p>Sign Up now!</p>
+				<button class="ghost" id="signUp">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="script.js"></script>
+<script src="https://kit.fontawesome.com/9662eaab38.js" crossorigin="anonymous"></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut
+    }
+    from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js"
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCAeakrgCEnRggm5OePYroLcvhtEmOkqWw",
+      authDomain: "fir-33cce.firebaseapp.com",
+      projectId: "fir-33cce",
+      storageBucket: "fir-33cce.appspot.com",
+      messagingSenderId: "1094858685218",
+      appId: "1:1094858685218:web:724787732546959f55437b"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth= getAuth(app);
+    const email=document.querySelector('#email');
+    const pass=document.querySelector('#pass');
+    const email2=document.querySelector('#email2');
+    const pass2=document.querySelector('#pass2');
+    const signin=document.querySelector('#signin');
+    const signup=document.querySelector('#signup');
+
+    const userSignUp = async()=> {
+        const signUpEmail=email.value;
+        const signUpPassword=pass.value;
+        createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+        .then((userCredential) => {
+          const user=userCredential.user;
+          console.log(user);
+          if(!alert('Your account has been created')){window.location.reload();}
+        })
+        .catch((error) => {
+         const errorCode=error.code;
+         const errorMessage=error.message;
+         console.log(errorCode+errorMessage)
+        })
+    }
+    const userSignIn = async()=> {
+        const signInEmail=email2.value;
+        const signInPassword=pass2.value;
+        signInWithEmailAndPassword(auth, signInEmail, signInPassword)
+        .then((userCredential) => {
+          const user=userCredential.user;
+          if(!alert('You have signed in succesfully')){
+            window.open(
+      'second.html', 
+      '_self');}
+        })
+        .catch((error) => {
+         const errorCode=error.code;
+         const errorMessage=error.message;
+         console.log(errorCode+errorMessage)
+        })
+    }
+    signup.addEventListener('click', userSignUp);
+    signin.addEventListener('click',userSignIn);
+  </script>
+</body>
+</html>
